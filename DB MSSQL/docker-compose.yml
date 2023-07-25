@@ -1,0 +1,14 @@
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    environment:
+        MSSQL_DB: "${MSSQL_DB:-testhf}"
+        SA_PASSWORD: "${SA_PASSWORD:-!Qwerty1234}"
+        ACCEPT_EULA: Y
+    ports:
+        - "${MSSQL_PORT:-15032}:1433"
+    volumes:
+        - "./data:/var/opt/mssql/data"
+        - "./log:/var/opt/mssql/log"
+        - "./secrets:/var/opt/mssql/secrets"
+    restart: unless-stopped

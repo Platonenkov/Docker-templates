@@ -1,0 +1,20 @@
+# Use postgres/example user/password credentials
+version: '3.1'
+
+services:
+  db:
+    image: postgres
+    container_name: psql_database
+    restart: always
+    ports:
+      - "${SQL_PORT:-15031}:5432"
+    environment:
+      POSTGRES_DB: "${POSTGRES_DB:-test_db}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:-!Qwerty1234}"
+      POSTGRES_USER: "${POSTGRES_USER:-test_user}"
+    #command:
+      #- "postgres"
+      #- "-c"
+      #- "port=6101"
+    volumes:
+      - /d/docker/psql/db:/var/lib/postgresql/data #путь в левой части с маленькой буквы как линуксе, полностью от корня диска

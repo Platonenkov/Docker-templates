@@ -1,0 +1,23 @@
+version: '3.7'
+ 
+services:
+  gitlab:
+    image: 'gitlab/gitlab-ee:14.3.3-ee.0'
+    restart: always
+    hostname: ${GIT_HOST:?GIT_HOST Variable not set}
+    environment:
+      GITLAB_SKIP_UNMIGRATED_DATA_CHECK: 'true'
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://${GIT_HOST:?GIT_HOST Variable not set}'
+        gitlab_rails['gitlab_shell_ssh_port'] = ${GIT_RAILS_PORT:?GIT_RAILS_PORT Variable not set}
+    ports:
+      - '127.0.0.1:${GIT_HTTP_PORT:?GIT_HTTP_PORT Variable not set}:80'
+      - '${GIT_SSH_PORT:?GIT_SSH_PORT Variable not set}:22'
+    volumes:
+      - '${GIT_VOLUME_LOC:?GIT_VOLUME_LOC Variable not set}/config:/etc/gitlab'
+      - '${GIT_VOLUME_LOC:?GIT_VOLUME_LOC Variable not set}/logs:/var/log/gitlab'
+      - '${GIT_VOLUME_LOC:?GIT_VOLUME_LOC Variable not set}/data:/var/opt/gitlab'
+    shm_size: '256m'
+    mem_limit: "3G" #memory limit
+    
+#config/initial_root_password -> password   User->root

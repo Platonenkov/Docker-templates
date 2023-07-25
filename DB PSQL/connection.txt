@@ -1,0 +1,7 @@
+docker run --rm -d -v postgres-data:/var/lib/postgresql/data --network postgres-net --name db -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=example postgres
+ 
+docker exec -ti db psql -U postgres //присоединение к базе CTRL+D - выход
+
+docker run --rm -d --network postgres-net --name dotnet-app -p 5000:80 dotnet-docker //запуск приложения в той же сети
+
+docker run --rm -d --network postgres-net --name db-admin -p 8080:8080 adminer //управление бд
